@@ -1,0 +1,45 @@
+name: Deploy static site to GitHub Pages
+
+# Publish the no-build static site whenever main is updated.
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:        # allow manual re-runs from the Actions tab
+
+# Minimum token scopes for a Pages deployment:
+#   contents: read   -> checkout
+#   pages: write     -> publish a Pages deployment
+#   id-token: write  -> OIDC token deploy-pages needs (omitting this BREAKS deploy)
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; never cancel an in-progress production deploy.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload static site artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          # No build step — upload the repository root as-is.
+          # (Only index.html / styles.css / app.js / README ship; .github is excluded.)
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,10 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Local dev tooling (not part of the site)
+.claude/
+
+# Logs / deps (none expected for this no-build site)
+*.log
+node_modules/

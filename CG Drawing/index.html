@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenGL Coordinate Visualizer</title>
+  <meta name="description" content="Paste OpenGL/GLUT C++ and see every glVertex2f coordinate on labeled graph paper plus the exact GLUT window output. An AIUB Computer Graphics study tool." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231F6FEB'/%3E%3Cpath d='M3 13L13 3M3 3v10h10' stroke='white' stroke-width='1.4' fill='none'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">▦</span>
+      <h1>OpenGL Coordinate Visualizer</h1>
+    </div>
+
+    <nav class="tabs" role="tablist" aria-label="View">
+      <button class="tab is-active" data-tab="graph" role="tab" aria-selected="true">Graph</button>
+      <button class="tab" data-tab="glut" role="tab" aria-selected="false">GLUT</button>
+      <button class="tab" data-tab="code" role="tab" aria-selected="false">&lt;/&gt; Code</button>
+    </nav>
+
+    <div class="controls">
+      <label class="preset-label">
+        <span>Preset</span>
+        <select id="preset" aria-label="Load a preset program">
+          <option value="">— Load an example —</option>
+        </select>
+      </label>
+      <span id="status" class="pill pill-neutral" role="status" aria-live="polite">Ready</span>
+    </div>
+  </header>
+
+  <main class="stage">
+    <!-- GRAPH (default) -->
+    <section class="panel is-active" data-panel="graph" role="tabpanel">
+      <figure class="card card-fill">
+        <figcaption class="card-head">
+          <span class="eyebrow">Graph View</span>
+          <span class="card-sub">NDC coordinates · origin center · y-up · range −1…+1</span>
+        </figcaption>
+        <div class="canvas-wrap canvas-wrap--graph">
+          <canvas id="graph" width="560" height="560"></canvas>
+          <div id="hoverChip" class="hover-chip" hidden></div>
+        </div>
+      </figure>
+    </section>
+
+    <!-- GLUT -->
+    <section class="panel" data-panel="glut" role="tabpanel">
+      <figure class="card card-fill">
+        <figcaption class="card-head">
+          <span class="eyebrow">GLUT Display</span>
+          <span id="glutTitle" class="card-sub" title="Title from glutCreateWindow, size from glutInitWindowSize">OpenGL · (300 × 300)</span>
+        </figcaption>
+        <div class="canvas-wrap canvas-wrap--glut">
+          <canvas id="glut" width="300" height="300"></canvas>
+        </div>
+        <p class="note" id="aspectNote" hidden>Non-square window: OpenGL stretches the shape per-axis (no <code>gluOrtho2D</code>). This is faithful, not a bug.</p>
+      </figure>
+    </section>
+
+    <!-- CODE -->
+    <section class="panel panel-code" data-panel="code" role="tabpanel">
+      <div class="code-toolbar">
+        <button id="run" class="btn btn-primary" type="button">Visualize <kbd>Ctrl</kbd>+<kbd>Enter</kbd></button>
+        <button id="reset" class="btn btn-ghost" type="button">Reset</button>
+        <label class="auto-toggle" title="Re-run automatically a moment after you stop typing">
+          <input type="checkbox" id="auto" /><span>Auto</span>
+        </label>
+        <span class="toolbar-hint">Paste your OpenGL C++ and press Visualize — the result opens on the Graph tab.</span>
+      </div>
+
+      <div class="editor-frame">
+        <div id="gutter" class="gutter" aria-hidden="true"></div>
+        <textarea id="code" spellcheck="false" autocomplete="off" autocapitalize="off"
+          wrap="off" aria-label="Paste OpenGL C++ code here"
+          placeholder="Paste your OpenGL / GLUT C++ here, then press Visualize (Ctrl+Enter)…"></textarea>
+      </div>
+
+      <div id="errorStrip" class="error-strip is-clean" role="alert">
+        <span class="error-dot" aria-hidden="true"></span>
+        <span id="errorText">No errors.</span>
+      </div>
+
+      <div class="table-card">
+        <div class="table-head">
+          <span class="eyebrow">Vertices</span>
+          <span id="tableSummary" class="card-sub">Paste code and press Visualize to plot every glVertex2f here.</span>
+        </div>
+        <div class="table-scroll">
+          <table id="vertTable">
+            <thead>
+              <tr><th>#</th><th>Primitive</th><th class="num">x</th><th class="num">y</th><th>Color</th><th>Swatch</th></tr>
+            </thead>
+            <tbody id="vertBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
