@@ -32,6 +32,10 @@ jobs:
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
+        with:
+          # Auto-enable Pages (source: GitHub Actions) if it isn't already,
+          # so a fresh clone/fork deploys without a manual settings step.
+          enablement: true
 
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v5
