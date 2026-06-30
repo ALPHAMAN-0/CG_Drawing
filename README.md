@@ -1,4 +1,4 @@
-# OpenGL Coordinate Visualizer
+# Coordinate Visualizer
 
 An **AIUB Computer Graphics** study tool. Paste your OpenGL / GLUT **C++** code and instantly see two synced views:
 
