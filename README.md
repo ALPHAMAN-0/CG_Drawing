@@ -5,12 +5,15 @@ An **AIUB Computer Graphics** study tool. Paste your OpenGL / GLUT **C++** code 
 ## Architecture / How it Works
 
 ```mermaid
-flowchart LR
-    A[User] --> B[Cg Drawing]
-    B --> C{Logic}
-    C --> D[(Data)]
-    C --> E[Output]
-    D --> C
+flowchart TD
+    AppShell --> Styles
+    AppShell --> UIController
+    UIController --> Presets
+    Presets --> UIController
+    UIController --> GLEmulator
+    GLEmulator --> Transpiler
+    UIController --> Renderer
+    UIController --> VertexTable
 ```
 
 
