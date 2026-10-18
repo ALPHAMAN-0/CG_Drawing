@@ -8,3 +8,4 @@ Thumbs.db
 # Logs / deps (none expected for this no-build site)
 *.log
 node_modules/
+config.bat
