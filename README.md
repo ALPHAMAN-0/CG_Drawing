@@ -2,6 +2,18 @@
 
 An **AIUB Computer Graphics** study tool. Paste your OpenGL / GLUT **C++** code and instantly see two synced views:
 
+## Architecture / How it Works
+
+```mermaid
+flowchart LR
+    A[User] --> B[Cg Drawing]
+    B --> C{Logic}
+    C --> D[(Data)]
+    C --> E[Output]
+    D --> C
+```
+
+
 - **Graph View** — OpenGL's coordinate plane as labeled graph paper: origin at the center, X/Y axes, gridlines, range `-1 … +1`, **y pointing up**. Every `glVertex2f` is plotted as a dot and labeled with its exact `(x, y)`.
 - **GLUT Display View** — the shape rendered exactly as it appears in the real OpenGL window: black background from `glClearColor`, correct window size from `glutInitWindowSize` (e.g. `320×320`, `500×500`), filled primitives.
 
